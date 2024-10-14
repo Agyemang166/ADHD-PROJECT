@@ -6,6 +6,8 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
+import analytics from '@react-native-firebase/analytics';
+
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -18,6 +20,7 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (loaded) {
+      analytics().logEvent('app_init');
       SplashScreen.hideAsync();
     }
   }, [loaded]);
