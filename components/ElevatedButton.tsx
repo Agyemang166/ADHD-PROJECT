@@ -24,13 +24,14 @@ export function ElevatedButton({ title, ...props }: { title: string } & Props) {
 const styles = StyleSheet.create({
   button: {
     alignItems: "center",
-    backgroundColor: "rgba(246, 122, 39, 1)",
-    borderRadius: 6,
+    backgroundColor: "#58cc02",
+    borderRadius: 10,
     height: 50,
     justifyContent: "center",
   },
   text: {
+    fontFamily: "Poppins-SemiBold",
+    color: "white",
     fontSize: 16,
-    fontWeight: "500",
   },
 });
