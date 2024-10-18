@@ -17,10 +17,12 @@
       "bundleIdentifier": "com.adhd.mobile"
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.adhd"
     },
     "web": {
       "bundler": "metro",
@@ -54,6 +56,9 @@
           ]
         }
       ]
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      "@react-native-firebase/crashlytics"
     ],
     "experiments": {
       "typedRoutes": true
