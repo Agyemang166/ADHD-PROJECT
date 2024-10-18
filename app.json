@@ -13,7 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.adhd.mobile"
     },
     "android": {
       "googleServicesFile": "./google-services.json",
@@ -30,6 +31,31 @@
     },
     "plugins": [
       "expo-router",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Poppins/Poppins-Black.ttf",
+            "./assets/fonts/Poppins/Poppins-Blackltalic.ttf",
+            "./assets/fonts/Poppins/Poppins-Bold.ttf",
+            "./assets/fonts/Poppins/Poppins-Boldltalic.ttf",
+            "./assets/fonts/Poppins/Poppins-ExtraBold.ttf",
+            "./assets/fonts/Poppins/Poppins-ExtraBoldItalic.ttf",
+            "./assets/fonts/Poppins/Poppins-ExtraLight.ttf",
+            "./assets/fonts/Poppins/Poppins-ExtraLightltalic.ttf",
+            "./assets/fonts/Poppins/Poppins-Italic.ttf",
+            "./assets/fonts/Poppins/Poppins-Light.ttf",
+            "./assets/fonts/Poppins/Poppins-Lightltalic.ttf",
+            "./assets/fonts/Poppins/Poppins-Medium.ttf",
+            "./assets/fonts/Poppins/Poppins-MediumItalic.ttf",
+            "./assets/fonts/Poppins/Poppins-Regular.ttf",
+            "./assets/fonts/Poppins/Poppins-SemiBold.tt",
+            "./assets/fonts/Poppins/Poppins-SemiBoldItalic.ttf",
+            "./assets/fonts/Poppins/Poppins-Thin.ttf",
+            "./assets/fonts/Poppins/Poppins-ThinItalic.ttf"
+          ]
+        }
+      ]
       "@react-native-firebase/app",
       "@react-native-firebase/auth",
       "@react-native-firebase/crashlytics"
