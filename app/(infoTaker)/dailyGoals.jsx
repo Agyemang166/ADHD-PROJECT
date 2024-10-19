@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Image } from 'react-native'; // Import Image
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Image } from 'react-native';
 import { Colors } from '@/constants/Colors';
 import { useNavigation } from 'expo-router';
 import ProgressBar from '@/components/ProgressBar';
 
-
-
 const DailyGoals = () => {
   const [selectedGoal, setSelectedGoal] = useState(null);
-  const [progress, setProgress] = useState(25);
+  const [progress, setProgress] = useState(25); // Initial progress set to 25
   const navigation = useNavigation();
 
   const goals = [
@@ -22,14 +20,14 @@ const DailyGoals = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         {/* Progress Bar */}
-        <ProgressBar progress={progress} />
-        
+        <ProgressBar initialProgress={progress} finalProgress={selectedGoal !== null ? 40 : 20} />       
+
         {/* Image and Text */}
         <Image
           source={{ uri: 'https://cdn.iconscout.com/icon/free/png-256/free-duolingo-logo-icon-download-in-svg-png-gif-file-formats--symbol-brand-world-logos-vol-2-pack-icons-282167.png?f=webp&w=256' }}
           style={styles.icon}
         />
-        <Text style={styles.chatText}>What are your daily lerning goals?</Text>
+        <Text style={styles.chatText}>What are your daily learning goals?</Text>
       </View>
 
       {/* Daily Goal Buttons */}
@@ -38,11 +36,11 @@ const DailyGoals = () => {
           key={goal.id}
           style={[
             styles.goalButton,
-            selectedGoal === goal.id && styles.selectedGoalButton, // Change button color when selected
+            selectedGoal === goal.id && styles.selectedGoalButton,
           ]}
           onPress={() => {
             setSelectedGoal(goal.id);
-            setProgress(50);
+            setProgress(50); // Set progress to 50 when a goal is selected
           }}
         >
           <Text
@@ -68,7 +66,7 @@ const DailyGoals = () => {
       <TouchableOpacity
         style={[
           styles.continueButton,
-          selectedGoal !== null && styles.continueButtonActive, 
+          selectedGoal !== null && styles.continueButtonActive,
         ]}
         disabled={selectedGoal === null}
         onPress={() => navigation.navigate('reminderSetup')}
@@ -79,7 +77,7 @@ const DailyGoals = () => {
             selectedGoal !== null && styles.continueButtonTextActive,
           ]}
         >
-          I'm Commited
+          I'm Committed
         </Text>
       </TouchableOpacity>
     </View>
@@ -105,7 +103,7 @@ const styles = StyleSheet.create({
     height: 80,
     alignSelf: 'center',
     marginBottom: 20,
-    marginTop:20
+    marginTop: 20
   },
   chatText: {
     fontSize: 20,
@@ -153,7 +151,7 @@ const styles = StyleSheet.create({
   continueButtonText: {
     fontSize: 16,
     color: Colors.light.buttonTextInactive, 
-    fontWeight:'bold'
+    fontWeight: 'bold'
   },
   continueButtonTextActive: {
     color: '#fff', 

@@ -7,27 +7,25 @@ import { Colors } from '@/constants/Colors';
 
 const ReminderSetup = () => {
   const [selectedOption, setSelectedOption] = useState(null);
-  const [progress, setProgress] = useState(50);
+  const [progress, setProgress] = useState(40); // Initialize progress to 0
   const navigation = useNavigation();
 
   const handleAllowPress = () => {
     if (selectedOption !== 'allow') {
       setSelectedOption('allow');
-      setProgress(75);
     }
   };
 
   const handleDontAllowPress = () => {
     if (selectedOption !== 'dontAllow') {
       setSelectedOption('dontAllow');
-      setProgress(75);
     }
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <ProgressBar progress={progress} />
+        <ProgressBar initialProgress={progress} finalProgress={60} /> 
         <Image
           source={{ uri: 'https://cdn.iconscout.com/icon/free/png-256/free-duolingo-logo-icon-download-in-svg-png-gif-file-formats--symbol-brand-world-logos-vol-2-pack-icons-282167.png?f=webp&w=256' }}
           style={styles.icon}
@@ -35,8 +33,10 @@ const ReminderSetup = () => {
         <Text style={styles.chatText}>I would remind you to learn every day</Text>
       </View>
       <View style={styles.box}>
-        <MaterialCommunityIcons name="bell" size={50} color="black" />
-        <Text style={styles.promptText}>Allow ADHD to send you notifications?</Text>
+        <MaterialCommunityIcons name="bell" size={60} color="black" />
+        <Text style={styles.promptText}>
+        Allow <Text style={styles.boldText}>ADHD</Text> to send you notifications?
+        </Text>
         <TouchableOpacity
           style={[
             styles.button,
@@ -62,7 +62,7 @@ const ReminderSetup = () => {
           !selectedOption && styles.continueButtonDisabled
         ]}
         disabled={!selectedOption} 
-        onPress={() => navigation.navigate('NextScreen')}
+        onPress={() => navigation.navigate('achievementPreview')}
       >
         <Text style={styles.continueButtonText}>Continue</Text>
       </TouchableOpacity>
@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     fontSize: 18,
     textAlign: 'center',
-    fontWeight: 'bold',
   },
   box: {
     justifyContent: 'center',
@@ -109,6 +108,9 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     fontSize: 18,
     textAlign: 'center',
+  },
+  boldText: {
+    fontWeight: 'bold',
   },
   button: {
     width: '100%',

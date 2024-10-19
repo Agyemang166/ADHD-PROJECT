@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Dimensions } from 'react-native';
-import ProgressBar from '../../components/ProgressBar'
+import ProgressBar from '../../components/ProgressBar';
 import { useNavigation } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 
-const index = () => {
+const Index = () => {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [progress, setProgress] = useState(0);
   const navigation = useNavigation();
@@ -13,7 +13,7 @@ const index = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-      <ProgressBar progress={progress} />
+        <ProgressBar initialProgress={progress} finalProgress={progress === 0 ? 0 : 20} />
         <Image
           source={{ uri: 'https://cdn.iconscout.com/icon/free/png-256/free-duolingo-logo-icon-download-in-svg-png-gif-file-formats--symbol-brand-world-logos-vol-2-pack-icons-282167.png?f=webp&w=256' }}
           style={styles.icon}
@@ -31,7 +31,7 @@ const index = () => {
             ]}
             onPress={() => {
               setSelectedCourse(course);
-              setProgress(25);
+              setProgress(25); 
             }}
           >
             <Text
@@ -59,7 +59,7 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;
 
 const { width } = Dimensions.get('window'); 
 
@@ -71,21 +71,20 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   header: {
-    flexDirection: 'col',
+    flexDirection: 'column',
     alignItems: 'center',
-    marginTop:40
+    marginTop: 40,
   },
   icon: {
     width: 60,
     height: 60,
     marginRight: 10,
-    marginTop:20
+    marginTop: 20,
   },
   chatText: {
     fontSize: 18,
-    fontWeight: 'bold',
     color: Colors.light.text,
-    marginTop:20
+    marginTop: 20,
   },
   coursesContainer: {
     flexDirection: 'row',
@@ -108,7 +107,7 @@ const styles = StyleSheet.create({
   courseText: {
     fontSize: 20,
     color: '#333',
-    fontWeight:'bold'
+    fontWeight: 'bold',
   },
   selectedText: {
     color: '#fff',
