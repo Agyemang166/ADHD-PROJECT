@@ -1,4 +1,4 @@
-import At from "@/assets/icons/at.svg";
+import At from "@/assets/icons/at";
 import Lock from "@/assets/icons/lock.svg";
 import { ElevatedButton } from "@/components/ElevatedButton";
 
