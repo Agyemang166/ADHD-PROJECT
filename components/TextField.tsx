@@ -1,32 +1,62 @@
-import { ComponentProps, ReactElement, useState } from "react";
+import { ComponentProps, ReactElement, useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 type Props = ComponentProps<typeof TextInput>;
 
+/**
+ * @param validator - A string that represents the validation prompt to notify user of invalid inputs.
+ * @param label - A string that represents the label of the text field.
+ * @param prefix - A ReactElement that represents the prefix of the text field.
+ * @param enabled - A boolean that represents if the text field is enabled.
+ * @returns [TextField]
+ */
 export function TextField({
   prefix,
+  enbaled: enabled = true,
+  validator,
   label,
   ...rest
-}: { prefix?: ReactElement; label: string } & Props) {
+}: {
+  prefix?: ReactElement;
+  enbaled?: boolean;
+  validator?: string | null;
+  label: string;
+} & Props) {
   const [isFocused, setIsFocused] = useState(false);
+  useEffect(() => {
+    // If the text field is disabled, then it should not be focused.
+    if (!enabled) setIsFocused(false);
+  }, [enabled]);
 
   return (
-    <Pressable onPress={() => setIsFocused(true)}>
-      <View style={[styles.textField, isFocused && styles.focusedTextField]}>
-        {prefix && <View style={{ marginRight: 10 }}>{prefix}</View>}
-        {!isFocused ? (
-          <Text style={styles.label}>{label}</Text>
-        ) : (
-          <TextInput
-            autoFocus
-            selectionColor={"#58cc02"}
-            {...rest}
-            style={styles.textInput}
-          />
-        )}
-        {/* <TextInput {...rest} /> */}
-      </View>
-    </Pressable>
+    <View>
+      <Pressable onPress={enabled ? () => setIsFocused(true) : null}>
+        <View
+          style={[
+            styles.textField,
+            isFocused && styles.focusedTextField,
+            validator != null && styles.errorTextField,
+          ]}
+        >
+          {prefix && <View style={{ marginRight: 10 }}>{prefix}</View>}
+          {!isFocused ? (
+            <Text style={styles.label}>{label}</Text>
+          ) : (
+            <TextInput
+              autoFocus
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              selectionColor={validator != null ? "#ff0000" : "#58cc02"}
+              {...rest}
+              style={styles.textInput}
+            />
+          )}
+        </View>
+      </Pressable>
+      {validator != null && (
+        <Text style={styles.validationText}>{validator}</Text>
+      )}
+    </View>
   );
 }
 
@@ -38,6 +68,9 @@ const styles = StyleSheet.create({
   },
   focusedTextField: {
     borderColor: "#58cc02",
+  },
+  errorTextField: {
+    borderColor: "#ff0000",
   },
   textField: {
     height: 50,
@@ -53,5 +86,12 @@ const styles = StyleSheet.create({
   textInput: {
     width: "100%",
     fontFamily: "Poppins",
+  },
+  validationText: {
+    color: "#ff0000",
+    fontSize: 12,
+    fontFamily: "Poppins",
+    marginTop: 5,
+    marginLeft: 10,
   },
 });
