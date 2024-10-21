@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   disabled_button: {
-    backgroundColor: "#f1f1f1",
+    backgroundColor: "#e1e1e1",
   },
   text: {
     fontFamily: "Poppins-SemiBold",
@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   disabled_text: {
-    color: "#a1a1a1",
+    color: "grey",
   },
 });
