@@ -1,23 +1,29 @@
 import { ComponentProps } from "react";
-import { Pressable, StyleSheet, Text } from "react-native";
+import { Pressable, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { LoadingIndicator } from "./LoadingIndicator";
 
-type Props = Omit<ComponentProps<typeof Pressable>, "title"> & {
+type Props = Omit<ComponentProps<typeof TouchableOpacity>, "title"> & {
   title: string;
 };
 
-export function ElevatedButton({ title, ...props }: { title: string } & Props) {
+export function ElevatedButton({
+  loading,
+  title,
+  ...props
+}: { loading?: boolean; title: string } & Props) {
   return (
-    <Pressable
+    <TouchableOpacity
       {...props}
-      style={[
-        styles.button,
-        typeof props.style === "function"
-          ? props.style({ pressed: false })
-          : props.style,
-      ]}
+      style={[styles.button, props.style, loading && styles.disabled_button]}
     >
-      <Text style={styles.text}>{title}</Text>
-    </Pressable>
+      {loading ? (
+        <LoadingIndicator />
+      ) : (
+        <Text style={[styles.text, loading && styles.disabled_text]}>
+          {title}
+        </Text>
+      )}
+    </TouchableOpacity>
   );
 }
 
@@ -29,9 +35,15 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: "center",
   },
+  disabled_button: {
+    backgroundColor: "#f1f1f1",
+  },
   text: {
     fontFamily: "Poppins-SemiBold",
     color: "white",
     fontSize: 16,
+  },
+  disabled_text: {
+    color: "#a1a1a1",
   },
 });
