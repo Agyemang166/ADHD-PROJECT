@@ -12,13 +12,13 @@ type Props = ComponentProps<typeof TextInput>;
  */
 export function TextField({
   prefix,
-  enbaled: enabled = true,
+  enabled: enabled = true,
   validator,
   label,
   ...rest
 }: {
   prefix?: ReactElement;
-  enbaled?: boolean;
+  enabled?: boolean;
   validator?: string | null;
   label: string;
 } & Props) {

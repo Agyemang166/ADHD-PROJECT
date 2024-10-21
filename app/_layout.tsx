@@ -1,9 +1,7 @@
-import { SessionProvider } from "@/ctx";
 import { auth } from "@/firebase-config";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Slot } from "expo-router";
+import { router, Slot, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { User } from "firebase/auth";
 import { useEffect, useState } from "react";
@@ -32,8 +30,15 @@ export default function RootLayout() {
   }
 
   auth.onAuthStateChanged((user) => {
+    if (user != null) router.replace("/home");
     setUser(user);
   });
 
-  return <Slot />;
+  return (
+    <Stack screenOptions={{}}>
+      <Stack.Screen name="sign-in" />
+      <Stack.Screen name="forgot-password" />
+      <Stack.Screen name="sign-up" />
+    </Stack>
+  );
 }

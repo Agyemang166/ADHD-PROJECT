@@ -1,6 +1,7 @@
 import At from "@/assets/icons/at.svg";
 import Lock from "@/assets/icons/lock.svg";
 import { ElevatedButton } from "@/components/ElevatedButton";
+import { Mascot } from "@/components/Mascot";
 
 import { TextField } from "@/components/TextField";
 import { Styles } from "@/constants/Styles";
@@ -63,20 +64,16 @@ export default function SignInScreen() {
   ];
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView style={styles.container}>
+    <ScrollView>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={styles.container}
+          style={{ flex: 1 }}
+          behavior={Platform.OS === "ios" ? "padding" : "height"} // Adjust for iOS vs Android
+          keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20} // You can modify the offset based on your header
         >
-          <ScrollView contentContainerStyle={styles.scrollView}>
+          <SafeAreaView style={styles.container}>
             <View>
-              <Image
-                style={styles.mascot}
-                source="https://miro.medium.com/v2/resize:fit:1400/1*4i-icnegCm9D-DvHC_3BkQ.png"
-                contentFit="cover"
-                transition={1000}
-              />
+              <Mascot />
               <View style={Styles.bottomGap2} />
               <Text style={styles.h1}>
                 <Text style={styles.h1_bold}>Login</Text> to your account
@@ -93,7 +90,7 @@ export default function SignInScreen() {
                       fill={isLoading ? "#a1a1a1" : "#58cc02"}
                     />
                   }
-                  enbaled={!isLoading}
+                  enabled={!isLoading}
                   validator={emailValidation}
                   label="Email address"
                   keyboardType="email-address"
@@ -110,7 +107,7 @@ export default function SignInScreen() {
                       fill={isLoading ? "#a1a1a1" : "#58cc02"}
                     />
                   }
-                  enbaled={!isLoading}
+                  enabled={!isLoading}
                   validator={passwordValidation}
                   label="Password"
                   value={password}
@@ -119,7 +116,10 @@ export default function SignInScreen() {
                 />
               </KeyboardAvoidingView>
               <View style={Styles.bottomGap2} />
-              <Text style={[styles.alignRight, styles.label]}>
+              <Text
+                onPress={() => router.push("/forgot-password")}
+                style={[styles.alignRight, styles.label]}
+              >
                 Forgot password?
               </Text>
               <View style={Styles.bottomGap1} />
@@ -162,25 +162,22 @@ export default function SignInScreen() {
               </View>
               <View style={Styles.bottomGap1} />
             </View>
-          </ScrollView>
+          </SafeAreaView>
         </KeyboardAvoidingView>
-      </SafeAreaView>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </ScrollView>
   );
 }
 
-interface FederatedProviderProps {
+export interface FederatedProviderProps {
   image: string;
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "space-between",
-  },
-  scrollView: {
     paddingHorizontal: 20,
     paddingTop: 10,
+    justifyContent: "space-between",
   },
   mascot: {
     marginTop: 30,

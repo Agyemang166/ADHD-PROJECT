@@ -71,7 +71,7 @@ export default function SignUpScreen() {
     );
   }
 
-  const handleSignIn = async () => {
+  const handleSignUp = async () => {
     try {
       setIsLoading(true);
       const isFormValid = validateForm();
@@ -112,13 +112,14 @@ export default function SignUpScreen() {
   const prefixSize = 20;
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView style={styles.container}>
+    <ScrollView>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={styles.container}
+          style={{ flex: 1 }}
+          behavior={Platform.OS === "ios" ? "padding" : "height"} // Adjust for iOS vs Android
+          keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20} // You can modify the offset based on your header
         >
-          <ScrollView contentContainerStyle={styles.scrollView}>
+          <SafeAreaView style={styles.container}>
             <Mascot style={styles.mascot} />
             <View style={Styles.bottomGap2} />
 
@@ -135,7 +136,7 @@ export default function SignUpScreen() {
                   fill={prefixFill}
                 />
               }
-              enbaled={!isLoading}
+              enabled={!isLoading}
               validator={nameValidation}
               label="Full name"
               autoCapitalize="words"
@@ -148,7 +149,7 @@ export default function SignUpScreen() {
               prefix={
                 <Dob height={prefixSize} width={prefixSize} fill={prefixFill} />
               }
-              enbaled={!isLoading}
+              enabled={!isLoading}
               validator={ageValidation}
               label="Age"
               keyboardType="number-pad"
@@ -161,7 +162,7 @@ export default function SignUpScreen() {
               prefix={
                 <At height={prefixSize} width={prefixSize} fill={prefixFill} />
               }
-              enbaled={!isLoading}
+              enabled={!isLoading}
               validator={emailValidation}
               label="Email address"
               autoCapitalize="none"
@@ -179,7 +180,7 @@ export default function SignUpScreen() {
                   fill={prefixFill}
                 />
               }
-              enbaled={!isLoading}
+              enabled={!isLoading}
               validator={passwordValidation}
               label="Password"
               value={password}
@@ -191,7 +192,7 @@ export default function SignUpScreen() {
             <ElevatedButton
               loading={isLoading}
               title="Continue"
-              onPress={handleSignIn}
+              onPress={handleSignUp}
             />
             <View style={Styles.bottomGap3} />
 
@@ -238,18 +239,15 @@ export default function SignUpScreen() {
               </View>
               <View style={Styles.bottomGap2} />
             </View>
-          </ScrollView>
+          </SafeAreaView>
         </KeyboardAvoidingView>
-      </SafeAreaView>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-  },
-  scrollView: {
     paddingHorizontal: 20,
     paddingTop: 10,
   },
