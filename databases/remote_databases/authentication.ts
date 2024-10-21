@@ -1,5 +1,5 @@
 import { User } from "@/entities/user";
-import { db } from "@/firebase-config";
+import { db } from "@/firebaseConfig";
 
 import { doc, setDoc } from "firebase/firestore";
 

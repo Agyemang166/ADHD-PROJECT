@@ -1,4 +1,4 @@
-import { auth } from "@/firebase-config";
+import { auth } from "@/firebaseConfig";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { useFonts } from "expo-font";
 import { router, Slot, Stack } from "expo-router";
@@ -12,7 +12,6 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const [user, setUser] = useState<User | null>(null);
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     Poppins: require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
@@ -29,13 +28,8 @@ export default function RootLayout() {
     return null;
   }
 
-  auth.onAuthStateChanged((user) => {
-    if (user != null) router.replace("/home");
-    setUser(user);
-  });
-
   return (
-    <Stack screenOptions={{}}>
+    <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="sign-in" />
       <Stack.Screen name="forgot-password" />
       <Stack.Screen name="sign-up" />

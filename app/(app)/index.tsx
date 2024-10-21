@@ -1,16 +1,24 @@
-import { Text, View } from 'react-native';
+import { auth } from "@/firebaseConfig";
+import { router } from "expo-router";
+import { signOut } from "firebase/auth";
+import { Text, View } from "react-native";
 
-import { useSession } from '../../ctx';
-
-export default function Index() {
-  const { signOut } = useSession();
+export default function Home() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text
-        onPress={() => {
-          // The `app/(app)/_layout.tsx` will redirect to the sign-in screen.
-          signOut();
-        }}>
+        onPress={async () => {
+          console.log("entered sign out functions");
+          signOut(auth)
+          .then((result) => {
+              console.log(result);
+              console.log(auth.currentUser?.email);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }}
+      >
         Sign Out
       </Text>
     </View>

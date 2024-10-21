@@ -11,7 +11,7 @@ import {
   signInWithGoogle,
 } from "@/databases/remote_databases/authentication";
 import { User } from "@/entities/user";
-import { auth } from "@/firebase-config";
+import { auth } from "@/firebaseConfig";
 import {
   validateAge,
   validateEmail,
@@ -115,14 +115,12 @@ export default function SignUpScreen() {
     <ScrollView>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView
-          style={{ flex: 1 }}
-          behavior={Platform.OS === "ios" ? "padding" : "height"} // Adjust for iOS vs Android
-          keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20} // You can modify the offset based on your header
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
         >
           <SafeAreaView style={styles.container}>
             <Mascot style={styles.mascot} />
             <View style={Styles.bottomGap2} />
-
             <Text style={styles.h1}>
               <Text style={styles.h1_bold}>Create</Text> your account
             </Text>

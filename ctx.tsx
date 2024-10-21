@@ -1,6 +1,6 @@
 import { useContext, createContext, type PropsWithChildren } from "react";
 import { signInWithEmailAndPassword, User } from "firebase/auth";
-import { auth } from "@/firebase-config";
+import { auth } from "@/firebaseConfig";
 import { useStorageState } from "./use-storage-state";
 
 const AuthContext = createContext<{

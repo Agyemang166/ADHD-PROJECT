@@ -5,7 +5,7 @@ import { Mascot } from "@/components/Mascot";
 
 import { TextField } from "@/components/TextField";
 import { Styles } from "@/constants/Styles";
-import { auth } from "@/firebase-config";
+import { auth } from "@/firebaseConfig";
 import { validateEmail, validatePassword } from "@/utils/functions";
 import { Image } from "expo-image";
 import { router } from "expo-router";
@@ -67,13 +67,12 @@ export default function SignInScreen() {
     <ScrollView>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView
-          style={{ flex: 1 }}
-          behavior={Platform.OS === "ios" ? "padding" : "height"} // Adjust for iOS vs Android
-          keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20} // You can modify the offset based on your header
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
         >
           <SafeAreaView style={styles.container}>
             <View>
-              <Mascot />
+              <Mascot style={styles.mascot} />
               <View style={Styles.bottomGap2} />
               <Text style={styles.h1}>
                 <Text style={styles.h1_bold}>Login</Text> to your account
@@ -139,7 +138,7 @@ export default function SignInScreen() {
                 </Text>
               </Text>
             </View>
-            <View style={Styles.bottomGap3} />
+            <View style={Styles.bottomGap1} />
             <View>
               <Text style={[styles.center, styles.p]}>
                 <Text style={[styles.label]}>- </Text>
@@ -177,7 +176,6 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
     paddingTop: 10,
-    justifyContent: "space-between",
   },
   mascot: {
     marginTop: 30,

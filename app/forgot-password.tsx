@@ -3,7 +3,7 @@ import { ElevatedButton } from "@/components/ElevatedButton";
 
 import { TextField } from "@/components/TextField";
 import { Styles } from "@/constants/Styles";
-import { auth } from "@/firebase-config";
+import { auth } from "@/firebaseConfig";
 import { validateEmail } from "@/utils/functions";
 import { Image } from "expo-image";
 import {
