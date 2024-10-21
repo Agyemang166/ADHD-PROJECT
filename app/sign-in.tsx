@@ -4,8 +4,8 @@ import { ElevatedButton } from "@/components/ElevatedButton";
 
 import { TextField } from "@/components/TextField";
 import { Styles } from "@/constants/Styles";
-import { useSession } from "@/ctx";
 import { auth } from "@/firebase-config";
+import { validateEmail, validatePassword } from "@/utils/functions";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -13,6 +13,8 @@ import { useState } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
+  Platform,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
@@ -21,7 +23,6 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SignInScreen() {
-  const { signIn } = useSession();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -30,42 +31,24 @@ export default function SignInScreen() {
     null
   );
 
-  const resetValidationMessages = () => {
-    setEmailValidation(null);
-    setPasswordValidation(null);
-  };
+  function validateForm(): boolean {
+    const emailValidation = validateEmail(email);
+    const passwordValidation = validatePassword(password);
 
-  const validateEmail = (email: string) => {
-    if (!email) {
-      setEmailValidation("Email is required.");
-      return false;
-    }
-    return true;
-  };
+    setEmailValidation(emailValidation);
+    setPasswordValidation(passwordValidation);
 
-  const validatePassword = (password: string) => {
-    if (!password) {
-      setPasswordValidation("Password is required.");
-      return false;
-    }
-    return true;
-  };
+    return emailValidation == null && passwordValidation == null;
+  }
 
   const handleSignIn = async () => {
     try {
-      // Reset validation errors
-      resetValidationMessages();
-
-      // Validate form.
-      const isEmailValid = validateEmail(email);
-      const isPasswordValid = validatePassword(password);
-
-      // Block sign-in if there are validation errors.
-      if (!isEmailValid || !isPasswordValid) return;
-
       setIsLoading(true);
+      const isFormValid = validateForm();
+
+      if (!isFormValid) return;
+
       await signInWithEmailAndPassword(auth, email, password);
-      router.replace("/(app)/home");
     } catch (e) {
       console.error(e);
     } finally {
@@ -82,92 +65,105 @@ export default function SignInScreen() {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
-        <View>
-          <Image
-            style={styles.mascot}
-            source="https://miro.medium.com/v2/resize:fit:1400/1*4i-icnegCm9D-DvHC_3BkQ.png"
-            contentFit="cover"
-            transition={1000}
-          />
-          <View style={Styles.bottomGap2} />
-          <Text style={styles.h1}>
-            <Text style={styles.h1_bold}>Login</Text> to your account
-          </Text>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.container}
+        >
+          <ScrollView contentContainerStyle={styles.scrollView}>
+            <View>
+              <Image
+                style={styles.mascot}
+                source="https://miro.medium.com/v2/resize:fit:1400/1*4i-icnegCm9D-DvHC_3BkQ.png"
+                contentFit="cover"
+                transition={1000}
+              />
+              <View style={Styles.bottomGap2} />
+              <Text style={styles.h1}>
+                <Text style={styles.h1_bold}>Login</Text> to your account
+              </Text>
 
-          <View style={Styles.bottomGap2} />
+              <View style={Styles.bottomGap2} />
 
-          <KeyboardAvoidingView>
-            <TextField
-              prefix={
-                <At
-                  height={20}
-                  width={20}
-                  fill={isLoading ? "#a1a1a1" : "#58cc02"}
+              <KeyboardAvoidingView>
+                <TextField
+                  prefix={
+                    <At
+                      height={20}
+                      width={20}
+                      fill={isLoading ? "#a1a1a1" : "#58cc02"}
+                    />
+                  }
+                  enbaled={!isLoading}
+                  validator={emailValidation}
+                  label="Email address"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  value={email}
+                  onChange={(text) => setEmail(text.nativeEvent.text)}
                 />
-              }
-              enbaled={!isLoading}
-              validator={emailValidation}
-              label="Email address"
-              keyboardType="email-address"
-              value={email}
-              onChange={(text) => setEmail(text.nativeEvent.text)}
-            />
+                <View style={Styles.bottomGap3} />
+                <TextField
+                  prefix={
+                    <Lock
+                      height={20}
+                      width={20}
+                      fill={isLoading ? "#a1a1a1" : "#58cc02"}
+                    />
+                  }
+                  enbaled={!isLoading}
+                  validator={passwordValidation}
+                  label="Password"
+                  value={password}
+                  onChange={(text) => setPassword(text.nativeEvent.text)}
+                  secureTextEntry={true}
+                />
+              </KeyboardAvoidingView>
+              <View style={Styles.bottomGap2} />
+              <Text style={[styles.alignRight, styles.label]}>
+                Forgot password?
+              </Text>
+              <View style={Styles.bottomGap1} />
+              <ElevatedButton
+                loading={isLoading}
+                title="Next"
+                onPress={handleSignIn}
+              />
+              <View style={Styles.bottomGap3} />
+              <Text style={[styles.center, styles.p]}>
+                Don't have an account?{" "}
+                <Text
+                  onPress={() => router.push("/sign-up")}
+                  style={[styles.label, { color: "#58cc02" }]}
+                >
+                  Signup
+                </Text>
+              </Text>
+            </View>
             <View style={Styles.bottomGap3} />
-            <TextField
-              prefix={
-                <Lock
-                  height={20}
-                  width={20}
-                  fill={isLoading ? "#a1a1a1" : "#58cc02"}
-                />
-              }
-              enbaled={!isLoading}
-              validator={passwordValidation}
-              label="Password"
-              value={password}
-              onChange={(text) => setPassword(text.nativeEvent.text)}
-              secureTextEntry={true}
-            />
-          </KeyboardAvoidingView>
-          <View style={Styles.bottomGap2} />
-          <Text style={[styles.alignRight, styles.label]}>
-            Forgot password?
-          </Text>
-          <View style={Styles.bottomGap1} />
-          <ElevatedButton
-            loading={isLoading}
-            title="Next"
-            onPress={handleSignIn}
-          />
-          <View style={Styles.bottomGap3} />
-          <Text style={[styles.center, styles.p]}>
-            Don't have an account?{" "}
-            <Text style={[styles.label, { color: "#58cc02" }]}>Signup</Text>
-          </Text>
-        </View>
-        <View style={Styles.bottomGap3} />
-        <View>
-          <Text style={[styles.center, styles.p]}>
-            <Text style={[styles.label]}>- </Text>
-            Or sign in with
-            <Text style={[styles.label]}> -</Text>
-          </Text>
-          <View style={Styles.bottomGap2} />
-          <View style={styles.providersRow}>
-            {federatedProviders.map((provider, index) => (
-              <View style={styles.federatedProvider} key={index}>
-                <Image
-                  key={index}
-                  source={provider.image}
-                  style={{ height: 25, width: 25 }}
-                  contentFit="cover"
-                  transition={1000}
-                />
+            <View>
+              <Text style={[styles.center, styles.p]}>
+                <Text style={[styles.label]}>- </Text>
+                Or sign in with
+                <Text style={[styles.label]}> -</Text>
+              </Text>
+              <View style={Styles.bottomGap2} />
+              <View style={styles.providersRow}>
+                {federatedProviders.map((provider, index) => (
+                  <View style={styles.federatedProvider} key={index}>
+                    <Image
+                      key={index}
+                      source={provider.image}
+                      style={{ height: 25, width: 25 }}
+                      contentFit="cover"
+                      transition={1000}
+                    />
+                  </View>
+                ))}
               </View>
-            ))}
-          </View>
-          <View style={Styles.bottomGap1} />
-        </View>
+              <View style={Styles.bottomGap1} />
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );
@@ -179,10 +175,12 @@ interface FederatedProviderProps {
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 20,
-    marginTop: 10,
     flex: 1,
     justifyContent: "space-between",
+  },
+  scrollView: {
+    paddingHorizontal: 20,
+    paddingTop: 10,
   },
   mascot: {
     marginTop: 30,

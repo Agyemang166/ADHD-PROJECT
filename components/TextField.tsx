@@ -30,7 +30,9 @@ export function TextField({
 
   return (
     <View>
-      <Pressable onPress={enabled ? () => setIsFocused(true) : null}>
+      <Pressable
+        onPress={rest["onPress"] ?? enabled ? () => setIsFocused(true) : null}
+      >
         <View
           style={[
             styles.textField,
@@ -39,7 +41,7 @@ export function TextField({
           ]}
         >
           {prefix && <View style={{ marginRight: 10 }}>{prefix}</View>}
-          {!isFocused ? (
+          {(!isFocused && rest["value"] == "") || null ? (
             <Text style={styles.label}>{label}</Text>
           ) : (
             <TextInput
