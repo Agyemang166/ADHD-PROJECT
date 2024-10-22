@@ -1,4 +1,5 @@
 import At from "@/assets/icons/at.svg";
+import { BackButton } from "@/components/BackButton";
 import { ElevatedButton } from "@/components/ElevatedButton";
 
 import { TextField } from "@/components/TextField";
@@ -6,19 +7,17 @@ import { Styles } from "@/constants/Styles";
 import { auth } from "@/firebaseConfig";
 import { validateEmail } from "@/utils/functions";
 import { Image } from "expo-image";
-import {
-    sendPasswordResetEmail
-} from "firebase/auth";
+import { sendPasswordResetEmail } from "firebase/auth";
 import { useState } from "react";
 import {
-    Keyboard,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableWithoutFeedback,
-    View,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -53,11 +52,17 @@ export default function ForgotPassword() {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView style={styles.container}>
+        <View style={styles.alignLeft}>
+          <BackButton />
+        </View>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.container}
         >
-          <ScrollView contentContainerStyle={styles.scrollView}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.scrollView}
+          >
             <View>
               <Image
                 style={styles.mascot}
@@ -126,5 +131,8 @@ const styles = StyleSheet.create({
   h1: {
     fontFamily: "Poppins",
     fontSize: 18,
+  },
+  alignLeft: {
+    marginLeft: 20,
   },
 });

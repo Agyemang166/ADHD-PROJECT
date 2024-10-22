@@ -34,6 +34,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
+import { BackButton } from "@/components/BackButton";
 
 export default function SignUpScreen() {
   /// State management for form fields.
@@ -112,135 +113,134 @@ export default function SignUpScreen() {
   const prefixSize = 20;
 
   return (
-    <ScrollView>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
-        >
-          <SafeAreaView style={styles.container}>
-            <Mascot style={styles.mascot} />
-            <View style={Styles.bottomGap2} />
-            <Text style={styles.h1}>
-              <Text style={styles.h1_bold}>Create</Text> your account
+        <SafeAreaView>
+          <View style={styles.alignLeft}>
+            <BackButton />
+          </View>
+          <ScrollView showsVerticalScrollIndicator={false}>
+          <Mascot style={styles.mascot} />
+          <View style={Styles.bottomGap2} />
+          <Text style={styles.h1}>
+            <Text style={styles.h1_bold}>Create</Text> your account
+          </Text>
+          <View style={Styles.bottomGap2} />
+
+          <TextField
+            prefix={
+              <IdCard
+                height={prefixSize}
+                width={prefixSize}
+                fill={prefixFill}
+              />
+            }
+            enabled={!isLoading}
+            validator={nameValidation}
+            label="Full name"
+            autoCapitalize="words"
+            value={name}
+            onChange={(text) => setName(text.nativeEvent.text)}
+          />
+          <View style={Styles.bottomGap3} />
+
+          <TextField
+            prefix={
+              <Dob height={prefixSize} width={prefixSize} fill={prefixFill} />
+            }
+            enabled={!isLoading}
+            validator={ageValidation}
+            label="Age"
+            keyboardType="number-pad"
+            value={age ? age.toString() : ""}
+            onChange={(text) => setAge(parseInt(text.nativeEvent.text))}
+          />
+          <View style={Styles.bottomGap3} />
+
+          <TextField
+            prefix={
+              <At height={prefixSize} width={prefixSize} fill={prefixFill} />
+            }
+            enabled={!isLoading}
+            validator={emailValidation}
+            label="Email address"
+            autoCapitalize="none"
+            keyboardType="email-address"
+            value={email}
+            onChange={(text) => setEmail(text.nativeEvent.text)}
+          />
+          <View style={Styles.bottomGap3} />
+
+          <TextField
+            prefix={
+              <Lock height={prefixSize} width={prefixSize} fill={prefixFill} />
+            }
+            enabled={!isLoading}
+            validator={passwordValidation}
+            label="Password"
+            value={password}
+            onChange={(text) => setPassword(text.nativeEvent.text)}
+            secureTextEntry={true}
+          />
+          <View style={Styles.bottomGap1} />
+
+          <ElevatedButton
+            loading={isLoading}
+            title="Continue"
+            onPress={handleSignUp}
+          />
+          <View style={Styles.bottomGap3} />
+
+          <Text style={[styles.center, styles.p]}>
+            Already have an account?{" "}
+            <Text
+              onPress={() => router.back()}
+              style={[styles.label, { color: "#58cc02" }]}
+            >
+              Sign in
             </Text>
-            <View style={Styles.bottomGap2} />
-
-            <TextField
-              prefix={
-                <IdCard
-                  height={prefixSize}
-                  width={prefixSize}
-                  fill={prefixFill}
-                />
-              }
-              enabled={!isLoading}
-              validator={nameValidation}
-              label="Full name"
-              autoCapitalize="words"
-              value={name}
-              onChange={(text) => setName(text.nativeEvent.text)}
-            />
-            <View style={Styles.bottomGap3} />
-
-            <TextField
-              prefix={
-                <Dob height={prefixSize} width={prefixSize} fill={prefixFill} />
-              }
-              enabled={!isLoading}
-              validator={ageValidation}
-              label="Age"
-              keyboardType="number-pad"
-              value={age ? age.toString() : ""}
-              onChange={(text) => setAge(parseInt(text.nativeEvent.text))}
-            />
-            <View style={Styles.bottomGap3} />
-
-            <TextField
-              prefix={
-                <At height={prefixSize} width={prefixSize} fill={prefixFill} />
-              }
-              enabled={!isLoading}
-              validator={emailValidation}
-              label="Email address"
-              autoCapitalize="none"
-              keyboardType="email-address"
-              value={email}
-              onChange={(text) => setEmail(text.nativeEvent.text)}
-            />
-            <View style={Styles.bottomGap3} />
-
-            <TextField
-              prefix={
-                <Lock
-                  height={prefixSize}
-                  width={prefixSize}
-                  fill={prefixFill}
-                />
-              }
-              enabled={!isLoading}
-              validator={passwordValidation}
-              label="Password"
-              value={password}
-              onChange={(text) => setPassword(text.nativeEvent.text)}
-              secureTextEntry={true}
-            />
-            <View style={Styles.bottomGap1} />
-
-            <ElevatedButton
-              loading={isLoading}
-              title="Continue"
-              onPress={handleSignUp}
-            />
-            <View style={Styles.bottomGap3} />
-
+          </Text>
+          <View style={Styles.bottomGap1} />
+          <View>
             <Text style={[styles.center, styles.p]}>
-              Already have an account?{" "}
-              <Text
-                onPress={() => router.back()}
-                style={[styles.label, { color: "#58cc02" }]}
-              >
-                Sign in
-              </Text>
+              <Text style={[styles.label]}>- </Text>
+              Or sign in with
+              <Text style={[styles.label]}> -</Text>
             </Text>
-            <View style={Styles.bottomGap1} />
-            <View>
-              <Text style={[styles.center, styles.p]}>
-                <Text style={[styles.label]}>- </Text>
-                Or sign in with
-                <Text style={[styles.label]}> -</Text>
-              </Text>
-              <View style={Styles.bottomGap2} />
-              <View style={styles.providersRow}>
-                {federatedProviders.map((provider, index) => (
-                  <View style={styles.federatedProvider} key={index}>
-                    <Pressable
-                      onPress={async function () {
-                        try {
-                          console.log("Sign in with", provider);
-                          await signInWithGoogle();
-                        } catch (e) {
-                          console.error(e);
-                        }
-                      }}
-                    >
-                      <Image
-                        key={index}
-                        source={provider.image}
-                        style={{ height: 25, width: 25 }}
-                        contentFit="cover"
-                        transition={1000}
-                      />
-                    </Pressable>
-                  </View>
-                ))}
-              </View>
-              <View style={Styles.bottomGap2} />
+            <View style={Styles.bottomGap2} />
+            <View style={styles.providersRow}>
+              {federatedProviders.map((provider, index) => (
+                <View style={styles.federatedProvider} key={index}>
+                  <Pressable
+                    onPress={async function () {
+                      try {
+                        console.log("Sign in with", provider);
+                        await signInWithGoogle();
+                      } catch (e) {
+                        console.error(e);
+                      }
+                    }}
+                  >
+                    <Image
+                      key={index}
+                      source={provider.image}
+                      style={{ height: 25, width: 25 }}
+                      contentFit="cover"
+                      transition={1000}
+                    />
+                  </Pressable>
+                </View>
+              ))}
             </View>
-          </SafeAreaView>
-        </KeyboardAvoidingView>
+            <View style={Styles.bottomGap2} />
+          </View>
+          </ScrollView>
+        </SafeAreaView>
       </TouchableWithoutFeedback>
-    </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -283,5 +283,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     gap: 20,
+  },
+  alignLeft: {
+    alignSelf: "flex-start",
   },
 });
