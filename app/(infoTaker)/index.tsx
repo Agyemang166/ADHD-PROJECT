@@ -4,11 +4,13 @@ import ProgressBar from '../../components/ProgressBar';
 import { useNavigation } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 
-const Index = () => {
-  const [selectedCourse, setSelectedCourse] = useState(null);
-  const [progress, setProgress] = useState(0);
+type Course = 'Maths' | 'English' | 'ICT' | 'Science'; // Define possible courses
+
+const Index: React.FC = () => {
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null); // Type course selection
+  const [progress, setProgress] = useState<number>(0); // Type progress as number
   const navigation = useNavigation();
-  const courses = ['Maths', 'English', 'ICT', 'Science'];
+  const courses: Course[] = ['Maths', 'English', 'ICT', 'Science']; // Explicitly type the courses array
 
   return (
     <View style={styles.container}>
@@ -31,7 +33,7 @@ const Index = () => {
             ]}
             onPress={() => {
               setSelectedCourse(course);
-              setProgress(25); 
+              setProgress(25);
             }}
           >
             <Text
@@ -45,7 +47,7 @@ const Index = () => {
           </TouchableOpacity>
         ))}
       </View>
-      <Text style={[styles.chatText]}>Don't worry. You can choose more in your profile</Text>
+      <Text style={styles.chatText}>Don't worry. You can choose more in your profile</Text>
 
       {/* Continue Button */}
       <TouchableOpacity

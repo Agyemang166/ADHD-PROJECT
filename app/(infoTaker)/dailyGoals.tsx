@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Image } from 'react-native';
 import { Colors } from '@/constants/Colors';
-import { useNavigation } from 'expo-router';
+import { router } from 'expo-router'; // Correct usage of router
 import ProgressBar from '@/components/ProgressBar';
 
-const DailyGoals = () => {
-  const [selectedGoal, setSelectedGoal] = useState(null);
-  const [progress, setProgress] = useState(25); // Initial progress set to 25
-  const navigation = useNavigation();
+interface Goal {
+  id: number;
+  time: string;
+  intensity: string;
+}
 
-  const goals = [
+const DailyGoals: React.FC = () => {
+  const [selectedGoal, setSelectedGoal] = useState<number | null>(null);
+  const [progress, setProgress] = useState<number>(25); 
+
+  const goals: Goal[] = [
     { id: 1, time: '3 min/day', intensity: 'Casual' },
     { id: 2, time: '10 min/day', intensity: 'Regular' },
     { id: 3, time: '15 min/day', intensity: 'Serious' },
@@ -40,7 +45,7 @@ const DailyGoals = () => {
           ]}
           onPress={() => {
             setSelectedGoal(goal.id);
-            setProgress(50); // Set progress to 50 when a goal is selected
+            setProgress(50);
           }}
         >
           <Text
@@ -69,7 +74,7 @@ const DailyGoals = () => {
           selectedGoal !== null && styles.continueButtonActive,
         ]}
         disabled={selectedGoal === null}
-        onPress={() => navigation.navigate('reminderSetup')}
+        onPress={() => router.push('/reminderSetup')} 
       >
         <Text
           style={[

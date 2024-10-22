@@ -5,38 +5,47 @@ import ProgressBar from '../../components/ProgressBar';
 import { useNavigation } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 
-const ReminderSetup = () => {
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [progress, setProgress] = useState(40); // Initialize progress to 0
+// Define a type for the selected option
+type SelectedOption = 'allow' | 'dontAllow' | null;
+
+const ReminderSetup: React.FC = () => {
+  // Properly typing the state with SelectedOption
+  const [selectedOption, setSelectedOption] = useState<SelectedOption>(null); 
+  const [progress, setProgress] = useState<number>(40);
   const navigation = useNavigation();
 
   const handleAllowPress = () => {
     if (selectedOption !== 'allow') {
-      setSelectedOption('allow');
+      setSelectedOption('allow'); 
+      setProgress(60); 
     }
   };
 
   const handleDontAllowPress = () => {
     if (selectedOption !== 'dontAllow') {
       setSelectedOption('dontAllow');
+      setProgress(60);
     }
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <ProgressBar initialProgress={progress} finalProgress={60} /> 
+        <ProgressBar initialProgress={progress} finalProgress={progress} />
         <Image
           source={{ uri: 'https://cdn.iconscout.com/icon/free/png-256/free-duolingo-logo-icon-download-in-svg-png-gif-file-formats--symbol-brand-world-logos-vol-2-pack-icons-282167.png?f=webp&w=256' }}
           style={styles.icon}
         />
-        <Text style={styles.chatText}>I would remind you to learn every day</Text>
+        <Text style={styles.chatText}>I will remind you to learn every day</Text>
       </View>
+
       <View style={styles.box}>
         <MaterialCommunityIcons name="bell" size={60} color="black" />
         <Text style={styles.promptText}>
-        Allow <Text style={styles.boldText}>ADHD</Text> to send you notifications?
+          Allow <Text style={styles.boldText}>ADHD</Text> to send you notifications?
         </Text>
+
+        {/* "Allow" Button */}
         <TouchableOpacity
           style={[
             styles.button,
@@ -46,6 +55,8 @@ const ReminderSetup = () => {
         >
           <Text style={styles.buttonText}>Allow</Text>
         </TouchableOpacity>
+
+        {/* "Don't Allow" Button */}
         <TouchableOpacity
           style={[
             styles.button,
@@ -56,6 +67,8 @@ const ReminderSetup = () => {
           <Text style={styles.buttonText}>Don't Allow</Text>
         </TouchableOpacity>
       </View>
+
+      {/* Continue Button */}
       <TouchableOpacity 
         style={[
           styles.continueButton, 

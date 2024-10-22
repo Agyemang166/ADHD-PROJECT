@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "app/(infoTaker)/index.js", "app/(infoTaker)/dailyGoals.jsx", "app/(infoTaker)/reminderSetup.jsx"  ]
+, "app/(infoTaker)/index.tsx", "app/(infoTaker)/dailyGoals.tsx", "app/(infoTaker)/reminderSetup.tsx"  ]
 }
