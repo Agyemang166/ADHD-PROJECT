@@ -50,6 +50,7 @@ export default function SignInScreen() {
       if (!isFormValid) return;
 
       await signInWithEmailAndPassword(auth, email, password);
+      router.replace("/(app)/")
     } catch (e) {
       console.error(e);
     } finally {

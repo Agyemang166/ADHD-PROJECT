@@ -94,6 +94,7 @@ export default function SignUpScreen() {
           console.log(auth.currentUser);
           await createUser(user);
           console.log("User created", user);
+          router.replace("/(app)/")
         }
       );
     } catch (e) {

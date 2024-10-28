@@ -14,12 +14,21 @@ export function ElevatedButton({
   return (
     <TouchableOpacity
       {...props}
-      style={[styles.button, props.style, loading && styles.disabled_button]}
+      style={[
+        styles.button,
+        props.style,
+        (loading || props["disabled"]) && styles.disabled_button,
+      ]}
     >
       {loading ? (
         <LoadingIndicator />
       ) : (
-        <Text style={[styles.text, loading && styles.disabled_text]}>
+        <Text
+          style={[
+            styles.text,
+            (loading || props["disabled"]) && styles.disabled_text,
+          ]}
+        >
           {title}
         </Text>
       )}

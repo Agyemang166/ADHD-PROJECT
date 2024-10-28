@@ -1,27 +1,39 @@
 import { ElevatedButton } from "@/components/ElevatedButton";
 import { Mascot } from "@/components/Mascot";
+import ProgressBar from "@/components/ProgressBar";
 import { Colors } from "@/constants/Colors";
-import { Course } from "@/entities/courses";
+import { Course, DailyLearningGoal } from "@/entities/courses";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import React, { useState } from "react";
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native"; // Import Image
 import { SafeAreaView } from "react-native-safe-area-context";
-import ProgressBar from "../../components/ProgressBar";
 
-const index = () => {
-  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+const DailyGoals = () => {
+  const [selectedCourse, setSelectedCourse] =
+    useState<DailyLearningGoal | null>(null);
   const [progress, setProgress] = useState(0);
-  const courses: Course[] = [Course.Math];
-  const courseIcons = {
-    [Course.Math]: "https://cdn-icons-png.flaticon.com/128/546/546743.png",
-  };
+  const dailyLearningGoals: DailyLearningGoal[] = [
+    DailyLearningGoal.Casual,
+    DailyLearningGoal.Regular,
+    DailyLearningGoal.Serious,
+    DailyLearningGoal.Intense,
+  ];
+
+  function getTime(goal: DailyLearningGoal): string {
+    switch (goal) {
+      case DailyLearningGoal.Casual:
+        return "3 mins";
+      case DailyLearningGoal.Regular:
+        return "10 mins";
+      case DailyLearningGoal.Serious:
+        return "15 mins";
+      case DailyLearningGoal.Intense:
+        return "30 mins";
+      default:
+        return "Unknown learning goal.";
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -29,49 +41,42 @@ const index = () => {
         <ProgressBar progress={progress} />
         <Mascot
           style={styles.mascot}
-          url="https://design.duolingo.com/f432eb8c3e03de216d20.svg"
+          url="https://design.duolingo.com/0c0e630c956fc1959fce.svg"
         />
         <Text style={styles.h1}>
-          What would you like to <Text style={styles.h1_bold}>learn?</Text>
+          What are you daily learning <Text style={styles.h1_bold}>goals?</Text>
         </Text>
 
-        <View style={styles.coursesContainer}>
-          {courses.map((course, index) => (
+        <View style={styles.goalsContainer}>
+          {dailyLearningGoals.map((learningGoal, index) => (
             <TouchableOpacity
-              onPress={() => setSelectedCourse(course)}
+              onPress={() => setSelectedCourse(learningGoal)}
               style={[
                 styles.outlinedButton,
-                selectedCourse === course && styles.selectedButton,
+                selectedCourse === learningGoal && styles.selectedButton,
               ]}
             >
-              <Image
-                source={courseIcons[course]}
-                style={{ height: 50, width: 50 }}
-              />
-              <Text style={{ fontFamily: "Poppins", fontSize: 18 }}>
-                {course}
+              <Text style={{ fontFamily: "Poppins-Semibold", fontSize: 18 }}>
+                {getTime(learningGoal)}
+              </Text>
+              <Text style={{ fontFamily: "Poppins", fontSize: 16 }}>
+                {learningGoal}
               </Text>
             </TouchableOpacity>
           ))}
         </View>
       </View>
-      <View>
-        <Text style={[styles.chatText]}>
-          Don't worry. You can choose more in your profile.
-        </Text>
-        <ElevatedButton
-          disabled={!selectedCourse}
-          onPress={() => router.push("/(app)/dailyGoals")}
-          title="Continue"
-        />
-      </View>
+
+      <ElevatedButton
+        disabled={!selectedCourse}
+        onPress={() => router.push("/(app)/reminderSetup")}
+        title="I'm Commited"
+      />
     </SafeAreaView>
   );
 };
 
-export default index;
-
-const { width } = Dimensions.get("window");
+export default DailyGoals;
 
 const styles = StyleSheet.create({
   container: {
@@ -84,9 +89,11 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: 10,
     borderColor: "#c1c1c1",
-    paddingHorizontal: 5,
+    paddingHorizontal: 10,
+    height: 60,
     paddingVertical: 5,
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
     gap: 10,
   },
@@ -120,21 +127,14 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins",
     marginBottom: 10,
   },
-  coursesContainer: {
+  goalsContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
     marginTop: 20,
+    gap: 10,
   },
-  courseButton: {
-    width: width / 2 - 30,
-    height: width / 2 - 30,
-    backgroundColor: "#f1f1f1",
-    borderRadius: 10,
-    marginBottom: 20,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+
   selectedButton: {
     borderColor: "#58cc02",
   },
