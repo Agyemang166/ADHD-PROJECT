@@ -13,7 +13,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import ProgressBar from "../../components/ProgressBar";
+import ProgressBar from "../../../components/ProgressBar";
 
 const index = () => {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
@@ -38,6 +38,7 @@ const index = () => {
         <View style={styles.coursesContainer}>
           {courses.map((course, index) => (
             <TouchableOpacity
+            key={index}
               onPress={() => setSelectedCourse(course)}
               style={[
                 styles.outlinedButton,

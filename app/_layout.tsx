@@ -26,7 +26,7 @@ export default function RootLayout() {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
       setLoading(false);
-      if (user) router.replace("/(app)/");
+      if (user) router.replace("/(app)/Welcome");
     });
 
     return () => unsubscribe();
@@ -34,7 +34,7 @@ export default function RootLayout() {
 
   useEffect(() => {
    console.log(user)
-    if (!loading && user) router.replace("/(app)/");
+    if (!loading && user) router.replace("/(app)/Welcome");
   }, [loading, user]);
 
   useEffect(() => {

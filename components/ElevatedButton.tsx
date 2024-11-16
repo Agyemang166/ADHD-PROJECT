@@ -1,6 +1,7 @@
 import { ComponentProps } from "react";
 import { Pressable, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { LoadingIndicator } from "./LoadingIndicator";
+import { Colors } from "@/constants/Colors";
 
 type Props = Omit<ComponentProps<typeof TouchableOpacity>, "title"> & {
   title: string;
@@ -39,7 +40,7 @@ export function ElevatedButton({
 const styles = StyleSheet.create({
   button: {
     alignItems: "center",
-    backgroundColor: "#58cc02",
+    backgroundColor: Colors.light.buttonBackground,
     borderRadius: 10,
     height: 50,
     justifyContent: "center",

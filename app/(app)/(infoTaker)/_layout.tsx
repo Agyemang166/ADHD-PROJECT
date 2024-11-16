@@ -5,13 +5,31 @@ const _layout = () => {
   return (
     <Stack screenOptions={{headerShown:false}}>
         <Stack.Screen
-            name="index"
+            name="Welcome"
             options={{
                 headerShown: false,
             }}
         />
         <Stack.Screen
-            name="achievementPreview"
+            name="knowYourName"
+            options={{
+                headerShown: false,
+            }}
+        />
+        <Stack.Screen
+            name="niceMeetingYou"
+            options={{
+                headerShown: false,
+            }}
+        />
+        <Stack.Screen
+            name="yourAge"
+            options={{
+                headerShown: false,
+            }}
+        />
+        <Stack.Screen
+            name="index"
             options={{
                 headerShown: false,
             }}
@@ -24,12 +42,6 @@ const _layout = () => {
         />
         <Stack.Screen
             name="reminderSetup"
-            options={{
-                headerShown: false,
-            }}
-        />
-        <Stack.Screen
-            name="startingPoint"
             options={{
                 headerShown: false,
             }}

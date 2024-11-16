@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
 import React, { useState } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import ProgressBar from '../../components/ProgressBar';
+import ProgressBar from '../../../components/ProgressBar';
 import { useNavigation } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 

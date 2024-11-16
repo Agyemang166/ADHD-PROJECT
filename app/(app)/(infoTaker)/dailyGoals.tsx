@@ -50,6 +50,7 @@ const DailyGoals = () => {
         <View style={styles.goalsContainer}>
           {dailyLearningGoals.map((learningGoal, index) => (
             <TouchableOpacity
+            key={index}
               onPress={() => setSelectedCourse(learningGoal)}
               style={[
                 styles.outlinedButton,
